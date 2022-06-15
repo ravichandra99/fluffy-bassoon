@@ -1,1 +1,11 @@
 python3 main.py -h 2402:3A80:1702:106::1 -a High -P TriHLS1234567890 -C AuthenticationEncryption -p 4059 -d DLMS -W 1 -T 5452493030303030 -A 5472695F5F5F556E6963617374417363 -B 5472695F5F5F556E6963617374417363 -L TIS -s 1 -c 48 -l 0 -t Verbose -o output.xml
+
+from gurux_dlms import GXByteBuffer
+data = "00 01 00 01 00 10 00 58 DB 08 41 42 43 44 45 46 47 48 4D 30 00 00 00 00 11 98 4B 30 35 F0 35 51 06 72 DA 54 93 70 8E 70 9B 3D BD 31 02 14 CE 10 A9 89 81 92 53 80 42 A9 19 D7 52 62 7B E6 70 B3 13 30 E1 53 B6 9D 0B 6D 14 8D 86 F9 D4 6F 6B C3 09 24 A8 4C 50 03 82 FF 05 77 A5 9B F1 1F CD 78"
+t = GXDLMSTranslator()
+t.comments = True
+t.systemTitle = "TRI00000".encode()
+t.blockCipherKey = bytearray(0x52, 0x45, 0x53, 0x5F, 0x55, 0x6E, 0x69, 0x63, 0x61, 0x73, 0x74, 0x41, 0x73, 0x73, 0x63, 0x30))
+t.authenticationKey = bytearray((0x52, 0x45, 0x53, 0x5F, 0x55, 0x6E, 0x69, 0x63, 0x61, 0x73, 0x74, 0x41, 0x73, 0x73, 0x63, 0x30))
+t.serverSystemTitle = GXByteBuffer.hexToBytes("4142434445464748")
+print(t.messageToXml(data))
